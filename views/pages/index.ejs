@@ -1,0 +1,77 @@
+<div class="container mt-4">
+    <form method="post" action="/">
+        <div class="form-group">
+            <label for="productLink">Product URL</label>
+            <input required type="text" class="form-control" id="productLink" name="productLink"
+                aria-describedby="productLinkHelp" placeholder="Type or Paste Url..." />
+            <small id="productLinkHelp" class="form-text text-muted">Copy any product url from amazon e.g.
+                https://www.amazon.ca/Echo-Dot-3rd-gen-Charcoal/dp/B07PDHT5XP</small>
+
+            <button type="submit" class="btn btn-primary mt-4" style="background-color: #343A3F;">Get Data</button>
+        </div>
+    </form>
+</div>
+<div class="container my-4">
+
+    <% if(data) { %>
+    <div class="row product-review-analysis mt-4">
+        <div class="col-12">
+            <h1><a target="_blank"
+                    href="<%= JSON.parse(decodeURI(data)).productDetail.productLink %>"><%= JSON.parse(decodeURI(data)).productDetail.productTitle %></a>
+            </h1>
+        </div>
+        <div style="display: none" id="serverdata" data-test="<%=data %>"></div>
+        <div class=" col-6">
+            <h2>Word Cloud</h2>
+            <b>Total extracted words</b>
+            <div class="shadow p-3 mb-5 bg-body rounded" id="word-cloud-div"></div>
+        </div>
+        <div class="col-6">
+            <h2>Bar Chart</h2>
+            <b>Top 10 used words</b>
+            <div class="shadow p-3 mb-5 bg-body rounded" id="bar-chart-div"></div>
+        </div>
+    </div>
+    <div class="row product-details">
+
+
+        <div class="col-6">
+            <img src="<%= JSON.parse(decodeURI(data)).productDetail.productImg %>"
+                alt="<%= JSON.parse(decodeURI(data)).productDetail.productTitle %>" height="auto" width="100%" />
+        </div>
+        <div class="col-6">
+            <div class="row">
+                <span class="col-6">
+                    <b>Price</b>
+                    <h4><%= JSON.parse(decodeURI(data)).productDetail.productPrice %></h4>
+                </span>
+                <span class="col-6">
+                    <b>Avg Reviews</b>
+                    <h4><%= JSON.parse(decodeURI(data)).productDetail.productRating %></h4>
+                </span>
+            </div>
+
+            <h3>Product Description</h3>
+            <p>
+                <%= JSON.parse(decodeURI(data)).productDetail.productDescription %>
+            </p>
+        </div>
+    </div>
+
+
+    <% } else { %>
+    <% if(data != null && data == false) { %>
+    <div class="alert alert-info" role="alert">
+        <b>Potential Errors</b>
+        <ul>
+            <li>
+                Please select amazon products only
+            </li>
+            <li>
+                Make sure url is correct
+            </li>
+        </ul>
+    </div>
+    <% } %>
+    <%} %>
+</div>
